@@ -1,0 +1,28 @@
+.giftItem {
+  background-color: var(--theme-100);
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  min-height: 2rem;
+  display: flex;
+  flex-flow: row-reverse nowrap;
+}
+
+.button {
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: 16px;
+  background-color: var(--theme-400);
+  color: #fff;
+}
+
+.header {
+  flex-grow: 1;
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.header h2 {
+  flex-shrink: 1;
+}

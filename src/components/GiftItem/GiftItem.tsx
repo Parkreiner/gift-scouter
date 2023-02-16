@@ -1,4 +1,6 @@
 import { GiftIdea } from "../../sharedTypesAndConstants";
+import { X as Close, ArrowRight } from "react-feather";
+import styles from "./GiftItem.module.css";
 
 type Props = {
   gift: GiftIdea;
@@ -14,24 +16,36 @@ export default function GiftItem({ gift, onDelete }: Props) {
   const { description, for: recipient, link, price, tags } = gift;
 
   return (
-    <div className="gift-item-card">
-      <h2>{description}</h2>
+    <article className={styles.giftItem}>
+      {typeof onDelete === "function" && (
+        <button type="button" className={styles.button} onClick={onDelete}>
+          <Close size={16} />
+        </button>
+      )}
 
-      {recipient.length > 0 && <em>For {recipient}</em>}
-      {link.length > 0 && <a href={link}>Link</a>}
-      {price > 0 && <span>{currencyConverter.format(price)}</span>}
+      <div className={styles.header}>
+        {link.length === 0 ? (
+          <h2>{description}</h2>
+        ) : (
+          <a href={link}>
+            <h2>
+              {description}
+              <ArrowRight size={24} />
+            </h2>
+          </a>
+        )}
+      </div>
+
+      <section className={styles.bonusInfo}>
+        {recipient.length > 0 && <em>For {recipient}</em>}
+        {price > 0 && <span>{currencyConverter.format(price)}</span>}
+      </section>
 
       {tags.map((tag, index) => (
-        <span key={index} className="gift-item-tag">
+        <span key={index} className={styles.giftTag}>
           {tag}
         </span>
       ))}
-
-      {typeof onDelete === "function" && (
-        <button type="button" onClick={onDelete}>
-          X
-        </button>
-      )}
-    </div>
+    </article>
   );
 }

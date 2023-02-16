@@ -1,0 +1,49 @@
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  padding-bottom: 2rem;
+}
+
+.label {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.labelText {
+  margin-bottom: 0.25rem;
+}
+
+.label input {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.submitButton {
+  max-width: max-content;
+  background-color: var(--theme-700);
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 8px 24px;
+  font-weight: 700;
+
+  margin-top: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.submitButton:hover {
+  background-color: var(--theme-600);
+}
+
+.submitButton svg {
+  margin-right: 8px;
+  fill: #fff;
+}

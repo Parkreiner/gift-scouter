@@ -1,17 +1,74 @@
+/* Start of reset */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+* {
+  margin: 0;
+}
+
 html,
 body {
-  max-width: 800px;
+  height: 100%;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+#root,
+#__next {
+  isolation: isolate;
+}
+
+/* Start of app-specific styling */
+@import url("https://fonts.googleapis.com/css2?family=Courgette&display=swap");
+
+:root {
+  --theme-50: #ffe6ef;
+  --theme-100: #f5d5ec;
+  --theme-700: #78232b;
+  --theme-600: #8a343d;
+  --theme-400: #c25b4f;
+}
+
+html,
+body {
+  max-width: 400px;
   max-height: 600px;
 }
 
 body {
-  margin: 0;
+  overflow-y: scroll;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -19,7 +76,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+h1 {
+  font-family: "courgette", cursive;
 }

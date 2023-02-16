@@ -3,21 +3,11 @@ import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import GiftForm from "../GiftForm";
 import GiftItem from "../GiftItem";
 import styles from "./GiftContainer.module.css";
-import {
-  getGiftsFromLocalStorage,
-  writeGiftsToLocalStorage,
-} from "../../helpers/localStorage";
+import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
 
 export default function GiftContainer() {
   const currentGifts = useGifts();
-  const { setGifts, removeGift } = useGiftUpdaters();
-
-  // Initializes gifts on mount - setGifts is stable identity, so this runs once
-  useEffect(() => {
-    const parsedGifts = getGiftsFromLocalStorage();
-    setGifts(parsedGifts);
-    writeGiftsToLocalStorage(parsedGifts);
-  }, [setGifts]);
+  const { removeGift } = useGiftUpdaters();
 
   // Updates local storage as gifts change
   useEffect(() => {
@@ -25,11 +15,11 @@ export default function GiftContainer() {
   }, [currentGifts]);
 
   return (
-    <div className="App">
+    <div className={styles.giftContainer}>
       <main>
         <GiftForm />
 
-        <section className="giftList">
+        <section className={styles.giftList}>
           {/** @todo - Update rest of code so key is more stable */}
           {currentGifts.map((gift, index) => (
             <GiftItem

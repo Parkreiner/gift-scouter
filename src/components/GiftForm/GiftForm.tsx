@@ -3,6 +3,8 @@ import { GiftIdea } from "../../sharedTypesAndConstants";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
 import useDraftReducer from "./useDraftReducer";
+import styles from "./GiftForm.module.css";
+import { Heart } from "react-feather";
 
 type FieldInfo = {
   name: Exclude<keyof GiftIdea, "tags">;
@@ -35,6 +37,14 @@ const formFieldInfo: readonly FieldInfo[] = [
   },
 ];
 
+function toTitleCase(str: string): string {
+  const snakecaseBoundaryMatcher = /(?<=[a-z])(?=[A-Z])/g;
+  return str
+    .split(snakecaseBoundaryMatcher)
+    .map((str) => str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase())
+    .join(" ");
+}
+
 export default function GiftForm() {
   const hookId = useId();
   const currentGifts = useGifts();
@@ -51,22 +61,24 @@ export default function GiftForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={styles.form}>
       {formFieldInfo.map(({ name, displayName, optional, type }) => {
         const id = `${hookId}-${name}`;
-        const availableName = displayName ?? name;
+        const availableName = displayName ?? toTitleCase(name);
         const optionalTag = optional ? " (optional)" : "";
 
         return (
-          <label key={id} htmlFor={id}>
-            {availableName}
-            {optionalTag}
+          <label key={id} htmlFor={id} className={styles.label}>
+            <div className={styles.labelText}>
+              {availableName}
+              <em>{optionalTag}</em>
+            </div>
+
             <input
               id={id}
               type={type}
               name={name}
               required={!optional}
-              title={name === "description" ? "Blah" : undefined}
               autoComplete="off"
               value={draftState[name]}
               onChange={(e) => {
@@ -80,7 +92,10 @@ export default function GiftForm() {
         );
       })}
 
-      <button type="submit">Save</button>
+      <button type="submit" className={styles.submitButton}>
+        <Heart size={16} />
+        Save
+      </button>
     </form>
   );
 }

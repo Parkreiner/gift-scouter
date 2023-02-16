@@ -6,10 +6,13 @@ import {
   useMemo,
   useState,
 } from "react";
+import { getGiftsFromLocalStorage } from "../../helpers/localStorage";
 import { GiftIdea } from "../../sharedTypesAndConstants";
 
 function useGiftSetup() {
-  const [gifts, setGifts] = useState<readonly GiftIdea[]>([]);
+  const [gifts, setGifts] = useState<readonly GiftIdea[]>(() => {
+    return window !== undefined ? getGiftsFromLocalStorage() : [];
+  });
 
   const addGift = useCallback((gift: GiftIdea) => {
     setGifts((prevGifts) => [...prevGifts, gift]);

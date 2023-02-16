@@ -1,0 +1,11 @@
+.appContainer {
+  background-color: var(--theme-50);
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.appContainer > h1 {
+  margin-bottom: 0.75rem;
+}
