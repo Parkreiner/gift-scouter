@@ -1,0 +1,16 @@
+{
+  "name": "Gift Scouter",
+  "description": "Gifts, gifts, and more gifts",
+  "version": "0.1",
+  "manifest_version": 2,
+  "browser_action": {
+    "default_popup": "index.html",
+    "default_title": "Find some gifts"
+  },
+  "icons": {
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
+  },
+  "permissions": ["activeTab"]
+}
