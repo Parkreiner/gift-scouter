@@ -1,7 +1,6 @@
 import "./App.css";
-
-import GiftsContext from "./components/GiftsContext";
-import GiftContainer from "./components/GiftContainer";
+import GiftsContext from "../GiftsContext";
+import GiftContainer from "../GiftContainer";
 
 export default function App() {
   return (

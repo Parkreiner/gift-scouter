@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
+import GiftForm from "../GiftForm";
+import GiftItem from "../GiftItem";
+import styles from "./GiftContainer.module.css";
 import {
   getGiftsFromLocalStorage,
   writeGiftsToLocalStorage,
 } from "../../helpers/localStorage";
-import GiftForm from "../GiftForm";
-import GiftItem from "../GiftItem";
 
 export default function GiftContainer() {
   const currentGifts = useGifts();
