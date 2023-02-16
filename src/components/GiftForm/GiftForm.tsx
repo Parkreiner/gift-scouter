@@ -1,52 +1,111 @@
-import { useId } from "react";
+import { useId, useReducer } from "react";
+import { GiftIdea } from "../../sharedTypesAndConstants";
 import { useGiftUpdaters } from "../GiftsContext";
+import { addGiftToLocalStorage } from "../../helpers/localStorage";
 
-function useFormIds() {
-  const hookId = useId();
-  return {
-    description: `${hookId}-description`,
-    for: `${hookId}-for`,
-    link: `${hookId}-link`,
-    price: `${hookId}-price`,
-  };
+type ChangeableFieldKey = Exclude<keyof GiftIdea, "tags">;
+
+type FieldInfo = {
+  name: ChangeableFieldKey;
+  displayName?: string;
+  optional: boolean;
+  type: "text" | "number";
+};
+
+type DraftAction =
+  | {
+      type: "fieldChanged";
+      payload: { field: ChangeableFieldKey; value: string };
+    }
+  | { type: "tagsChanged"; payload: { value: string[] } }
+  | { type: "submitted" };
+
+const initialDraftState = {
+  description: "",
+  for: "",
+  link: "",
+  price: 0,
+  tags: [],
+} as const satisfies GiftIdea;
+
+function reduceDraft(state: GiftIdea, action: DraftAction): GiftIdea {
+  switch (action.type) {
+    case "fieldChanged": {
+      const { field, value } = action.payload;
+      const newValue = field === "price" ? Number(value) : value;
+      return { ...state, [field]: newValue };
+    }
+
+    case "tagsChanged": {
+      // Not implemented yet
+      return state;
+    }
+
+    case "submitted": {
+      return initialDraftState;
+    }
+
+    default: {
+      throw new Error("Unknown action type detected");
+    }
+  }
 }
 
-function GiftForm() {
-  const { addGift } = useGiftUpdaters();
-  const ids = useFormIds();
+const formFieldInfo: readonly FieldInfo[] = [
+  {
+    name: "description",
+    displayName: "Gift idea",
+    optional: false,
+    type: "text",
+  },
+  { name: "for", optional: true, type: "text" },
+  { name: "link", optional: true, type: "text" },
+  { name: "price", optional: true, type: "text" },
+];
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+export default function GiftForm() {
+  const hookId = useId();
+  const [draftState, dispatch] = useReducer(reduceDraft, initialDraftState);
+  const { addGift } = useGiftUpdaters();
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = Object.fromEntries(
-      new FormData(e.currentTarget)
-    ) as Record<string, string>;
+
+    addGiftToLocalStorage(draftState);
+    addGift(draftState);
+    dispatch({ type: "submitted" });
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <label htmlFor={ids.description}>
-        Gift idea:
-        <input id={ids.description} type="text" name="description" />
-      </label>
+      {formFieldInfo.map(({ name, displayName, optional, type }) => {
+        const id = `${hookId}-${name}`;
+        const availableName = displayName ?? name;
+        const optionalTag = optional ? " (optional)" : "";
 
-      <label htmlFor={ids.for}>
-        For (optional):
-        <input id={ids.for} type="text" name="for" />
-      </label>
+        const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+          dispatch({
+            type: "fieldChanged",
+            payload: { field: name, value: e.target.value },
+          });
+        };
 
-      <label htmlFor={ids.link}>
-        Link (optional):
-        <input id={ids.link} type="url" name="link" />
-      </label>
-
-      <label htmlFor={ids.price}>
-        Price (optional):
-        <input id={ids.price} type="number" min={0} max={99_999} name="price" />
-      </label>
+        return (
+          <label key={id} htmlFor={id}>
+            {availableName}
+            {optionalTag}
+            <input
+              id={id}
+              type={type}
+              name={name}
+              value={draftState[name]}
+              onChange={onChange}
+            />
+          </label>
+        );
+      })}
 
       <button type="submit">Save</button>
     </form>
   );
 }
-
-export default GiftForm;
