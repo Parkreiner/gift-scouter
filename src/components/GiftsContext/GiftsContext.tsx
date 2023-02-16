@@ -15,9 +15,16 @@ function useGiftSetup() {
     setGifts((prevGifts) => [...prevGifts, gift]);
   }, []);
 
+  const removeGift = useCallback((giftIndex: number) => {
+    setGifts((prevGifts) => {
+      const removed = prevGifts.filter((_, index) => index !== giftIndex);
+      return removed.length < prevGifts.length ? removed : prevGifts;
+    });
+  }, []);
+
   const updaters = useMemo(() => {
-    return { addGift, setGifts };
-  }, [addGift]);
+    return { addGift, setGifts, removeGift };
+  }, [addGift, removeGift]);
 
   return { gifts: gifts, updaters } as const;
 }

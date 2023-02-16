@@ -1,4 +1,5 @@
-import { GiftIdea, isGiftIdea } from "../sharedTypesAndConstants";
+import { GiftIdea } from "../sharedTypesAndConstants";
+import { isGiftIdea } from "./gifts";
 
 const giftKey = "gift-scouter-giftIdeas";
 
