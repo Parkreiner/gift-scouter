@@ -1,7 +1,7 @@
 import { useId, useReducer } from "react";
 import { GiftIdea } from "../../sharedTypesAndConstants";
-import { useGiftUpdaters } from "../GiftsContext";
-import { addGiftToLocalStorage } from "../../helpers/localStorage";
+import { useGifts, useGiftUpdaters } from "../GiftsContext";
+import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
 
 type ChangeableFieldKey = Exclude<keyof GiftIdea, "tags">;
 
@@ -58,21 +58,35 @@ const formFieldInfo: readonly FieldInfo[] = [
     optional: false,
     type: "text",
   },
-  { name: "for", optional: true, type: "text" },
-  { name: "link", optional: true, type: "text" },
-  { name: "price", optional: true, type: "text" },
+  {
+    name: "for",
+    optional: true,
+    type: "text",
+  },
+  {
+    name: "link",
+    optional: true,
+    type: "text",
+  },
+  {
+    name: "price",
+    optional: true,
+    type: "number",
+  },
 ];
 
 export default function GiftForm() {
   const hookId = useId();
   const [draftState, dispatch] = useReducer(reduceDraft, initialDraftState);
-  const { addGift } = useGiftUpdaters();
+  const currentGifts = useGifts();
+  const { setGifts } = useGiftUpdaters();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newGifts = [...currentGifts, draftState];
 
-    addGiftToLocalStorage(draftState);
-    addGift(draftState);
+    writeGiftsToLocalStorage(newGifts);
+    setGifts(newGifts);
     dispatch({ type: "submitted" });
   };
 
