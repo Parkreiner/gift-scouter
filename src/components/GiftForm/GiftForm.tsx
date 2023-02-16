@@ -1,55 +1,15 @@
-import { useId, useReducer } from "react";
+import { useId } from "react";
 import { GiftIdea } from "../../sharedTypesAndConstants";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
-
-type ChangeableFieldKey = Exclude<keyof GiftIdea, "tags">;
+import useDraftReducer from "./useDraftReducer";
 
 type FieldInfo = {
-  name: ChangeableFieldKey;
+  name: Exclude<keyof GiftIdea, "tags">;
   displayName?: string;
   optional: boolean;
   type: "text" | "number";
 };
-
-type DraftAction =
-  | {
-      type: "fieldChanged";
-      payload: { field: ChangeableFieldKey; value: string };
-    }
-  | { type: "tagsChanged"; payload: { value: string[] } }
-  | { type: "submitted" };
-
-const initialDraftState = {
-  description: "",
-  for: "",
-  link: "",
-  price: 0,
-  tags: [],
-} as const satisfies GiftIdea;
-
-function reduceDraft(state: GiftIdea, action: DraftAction): GiftIdea {
-  switch (action.type) {
-    case "fieldChanged": {
-      const { field, value } = action.payload;
-      const newValue = field === "price" ? Number(value) : value;
-      return { ...state, [field]: newValue };
-    }
-
-    case "tagsChanged": {
-      // Not implemented yet
-      return state;
-    }
-
-    case "submitted": {
-      return initialDraftState;
-    }
-
-    default: {
-      throw new Error("Unknown action type detected");
-    }
-  }
-}
 
 const formFieldInfo: readonly FieldInfo[] = [
   {
@@ -77,8 +37,8 @@ const formFieldInfo: readonly FieldInfo[] = [
 
 export default function GiftForm() {
   const hookId = useId();
-  const [draftState, dispatch] = useReducer(reduceDraft, initialDraftState);
   const currentGifts = useGifts();
+  const [draftState, dispatch] = useDraftReducer();
   const { setGifts } = useGiftUpdaters();
 
   const handleSubmit = (e: React.FormEvent) => {
