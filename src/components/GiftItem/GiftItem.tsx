@@ -23,29 +23,32 @@ export default function GiftItem({ gift, onDelete }: Props) {
         </button>
       )}
 
-      <div className={styles.header}>
-        {link.length === 0 ? (
-          <h2>{description}</h2>
-        ) : (
-          <a href={link}>
-            <h2>
-              {description}
-              <ArrowRight size={24} />
-            </h2>
-          </a>
-        )}
+      <div className={styles.mainContent}>
+        <div className={styles.header}>
+          {link.length === 0 ? (
+            <h2>{description}</h2>
+          ) : (
+            <a href={link}>
+              <h2>
+                <span>{description}</span>
+
+                <ArrowRight size={24} />
+              </h2>
+            </a>
+          )}
+        </div>
+
+        <section className={styles.bonusInfo}>
+          {recipient.length > 0 && <em>For {recipient}</em>}
+          {price > 0 && <span>{currencyConverter.format(price)}</span>}
+        </section>
+
+        {tags.map((tag, index) => (
+          <span key={index} className={styles.giftTag}>
+            {tag}
+          </span>
+        ))}
       </div>
-
-      <section className={styles.bonusInfo}>
-        {recipient.length > 0 && <em>For {recipient}</em>}
-        {price > 0 && <span>{currencyConverter.format(price)}</span>}
-      </section>
-
-      {tags.map((tag, index) => (
-        <span key={index} className={styles.giftTag}>
-          {tag}
-        </span>
-      ))}
     </article>
   );
 }

@@ -8,6 +8,12 @@
   flex-flow: row-reverse nowrap;
 }
 
+.mainContent {
+  display: flex;
+  flex-grow: 1;
+  flex-flow: column nowrap;
+}
+
 .button {
   width: 24px;
   height: 24px;
@@ -17,6 +23,10 @@
   color: #fff;
 }
 
+.bonusInfo > * {
+  margin-right: 12px;
+}
+
 .header {
   flex-grow: 1;
   display: flex;
@@ -24,5 +34,11 @@
 }
 
 .header h2 {
-  flex-shrink: 1;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header h2 svg {
+  margin-left: 4px;
 }
