@@ -1,10 +1,10 @@
-import { PropsWithChildren, useEffect } from "react";
+import { useEffect } from "react";
 import "./App.css";
 import GiftForm from "./components/GiftForm";
 import GiftsContext, { useGiftUpdaters } from "./components/GiftsContext";
 import { getGiftsFromLocalStorage } from "./helpers/localStorage";
 
-function Main({ children }: PropsWithChildren) {
+function AppContainer() {
   const { setGifts } = useGiftUpdaters();
 
   useEffect(() => {
@@ -12,19 +12,19 @@ function Main({ children }: PropsWithChildren) {
     setGifts(cachedGifts);
   }, [setGifts]);
 
-  return <main>{children}</main>;
-}
-
-function App() {
   return (
-    <GiftsContext>
-      <div className="App">
-        <Main>
-          <GiftForm />
-        </Main>
-      </div>
-    </GiftsContext>
+    <div className="App">
+      <main>
+        <GiftForm />
+      </main>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <GiftsContext>
+      <AppContainer />
+    </GiftsContext>
+  );
+}
