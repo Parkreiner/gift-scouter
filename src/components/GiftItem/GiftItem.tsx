@@ -28,7 +28,9 @@ export default function GiftItem({ gift, onDelete }: Props) {
       ))}
 
       {typeof onDelete === "function" && (
-        <button type="button" onClick={onDelete} />
+        <button type="button" onClick={onDelete}>
+          X
+        </button>
       )}
     </div>
   );

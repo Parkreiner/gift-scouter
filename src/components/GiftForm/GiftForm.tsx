@@ -57,13 +57,6 @@ export default function GiftForm() {
         const availableName = displayName ?? name;
         const optionalTag = optional ? " (optional)" : "";
 
-        const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-          dispatch({
-            type: "fieldChanged",
-            payload: { field: name, value: e.target.value },
-          });
-        };
-
         return (
           <label key={id} htmlFor={id}>
             {availableName}
@@ -72,8 +65,16 @@ export default function GiftForm() {
               id={id}
               type={type}
               name={name}
+              required={!optional}
+              title={name === "description" ? "Blah" : undefined}
+              autoComplete="off"
               value={draftState[name]}
-              onChange={onChange}
+              onChange={(e) => {
+                dispatch({
+                  type: "fieldChanged",
+                  payload: { field: name, value: e.target.value },
+                });
+              }}
             />
           </label>
         );

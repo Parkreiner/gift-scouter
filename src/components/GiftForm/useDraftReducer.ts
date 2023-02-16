@@ -17,17 +17,17 @@ const initialDraftState = {
   tags: [],
 } as const satisfies GiftIdea;
 
-function reduceDraft(state: GiftIdea, action: DraftAction): GiftIdea {
+function reduceDraft(draft: GiftIdea, action: DraftAction): GiftIdea {
   switch (action.type) {
     case "fieldChanged": {
       const { field, value } = action.payload;
       const newValue = field === "price" ? Number(value) : value;
-      return { ...state, [field]: newValue };
+      return { ...draft, [field]: newValue };
     }
 
     case "tagAdded": {
       const { value } = action.payload;
-      return { ...state, tags: [...state.tags, value] };
+      return { ...draft, tags: [...draft.tags, value] };
     }
 
     case "submitted": {

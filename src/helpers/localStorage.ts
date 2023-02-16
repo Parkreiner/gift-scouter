@@ -15,11 +15,11 @@ export function getGiftsFromLocalStorage(): readonly GiftIdea[] {
     if (!retrieved) throw new Error("No valid value retrieved");
     const parsed: unknown = JSON.parse(retrieved);
 
-    if (!Array.isArray(parsed) || !parsed.every(isGiftIdea)) {
-      throw new Error("Parsed value is not a valid array");
+    if (!Array.isArray(parsed)) {
+      throw new Error("Parsed value is not an array");
     }
 
-    return parsed;
+    return parsed.filter(isGiftIdea);
   } catch (err) {
     console.error(err);
 

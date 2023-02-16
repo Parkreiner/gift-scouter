@@ -1,6 +1,9 @@
 import { useEffect } from "react";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
-import { getGiftsFromLocalStorage } from "../../helpers/localStorage";
+import {
+  getGiftsFromLocalStorage,
+  writeGiftsToLocalStorage,
+} from "../../helpers/localStorage";
 import GiftForm from "../GiftForm";
 import GiftItem from "../GiftItem";
 
@@ -8,10 +11,17 @@ export default function GiftContainer() {
   const currentGifts = useGifts();
   const { setGifts, removeGift } = useGiftUpdaters();
 
+  // Initializes gifts on mount - setGifts is stable identity, so this runs once
   useEffect(() => {
-    const cachedGifts = getGiftsFromLocalStorage();
-    setGifts(cachedGifts);
+    const parsedGifts = getGiftsFromLocalStorage();
+    setGifts(parsedGifts);
+    writeGiftsToLocalStorage(parsedGifts);
   }, [setGifts]);
+
+  // Updates local storage as gifts change
+  useEffect(() => {
+    writeGiftsToLocalStorage(currentGifts);
+  }, [currentGifts]);
 
   return (
     <div className="App">

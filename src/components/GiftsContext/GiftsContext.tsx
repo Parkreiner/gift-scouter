@@ -26,7 +26,7 @@ function useGiftSetup() {
     return { addGift, setGifts, removeGift };
   }, [addGift, removeGift]);
 
-  return { gifts: gifts, updaters } as const;
+  return { gifts, updaters } as const;
 }
 
 type Updaters = ReturnType<typeof useGiftSetup>["updaters"];
