@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { GiftIdea } from "../../sharedTypesAndConstants";
+import { GiftIdea, GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
 
 type DraftAction =
   | {
@@ -15,9 +15,12 @@ const initialDraftState = {
   link: "",
   price: 0,
   tags: [],
-} as const satisfies GiftIdea;
+} as const satisfies GiftIdeaWithoutId;
 
-function reduceDraft(draft: GiftIdea, action: DraftAction): GiftIdea {
+function reduceDraft(
+  draft: GiftIdeaWithoutId,
+  action: DraftAction
+): GiftIdeaWithoutId {
   switch (action.type) {
     case "fieldChanged": {
       const { field, value } = action.payload;

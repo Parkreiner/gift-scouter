@@ -18,9 +18,9 @@ function useGiftSetup() {
     setGifts((prevGifts) => [...prevGifts, gift]);
   }, []);
 
-  const removeGift = useCallback((giftIndex: number) => {
+  const removeGift = useCallback((giftId: string) => {
     setGifts((prevGifts) => {
-      const removed = prevGifts.filter((_, index) => index !== giftIndex);
+      const removed = prevGifts.filter((gift) => gift.id !== giftId);
       return removed.length < prevGifts.length ? removed : prevGifts;
     });
   }, []);

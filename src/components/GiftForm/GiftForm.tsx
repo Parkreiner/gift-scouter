@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { GiftIdea } from "../../sharedTypesAndConstants";
+import { GiftIdea, GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
 import useDraftReducer from "./useDraftReducer";
@@ -7,7 +7,7 @@ import styles from "./GiftForm.module.css";
 import { Heart } from "react-feather";
 
 type FieldInfo = {
-  name: Exclude<keyof GiftIdea, "tags">;
+  name: Exclude<keyof GiftIdeaWithoutId, "tags">;
   displayName?: string;
   optional: boolean;
   type: "text" | "number";
@@ -47,16 +47,17 @@ function toTitleCase(str: string): string {
 
 export default function GiftForm() {
   const hookId = useId();
-  const currentGifts = useGifts();
   const [draftState, dispatch] = useDraftReducer();
-  const { setGifts } = useGiftUpdaters();
+  const { addGift } = useGiftUpdaters();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const newGifts = [...currentGifts, draftState];
+    const newGift = {
+      id: String(Math.random()),
+      ...draftState,
+    };
 
-    writeGiftsToLocalStorage(newGifts);
-    setGifts(newGifts);
+    addGift(newGift);
     dispatch({ type: "submitted" });
   };
 

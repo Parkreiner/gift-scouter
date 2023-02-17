@@ -1,0 +1,8 @@
+.sortBar {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+}

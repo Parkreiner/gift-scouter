@@ -19,7 +19,7 @@ export default function GiftItem({ gift, onDelete }: Props) {
     <article className={styles.giftItem}>
       {typeof onDelete === "function" && (
         <button type="button" className={styles.button} onClick={onDelete}>
-          <Close size={16} />
+          <Close size={16} strokeWidth={2.5} />
         </button>
       )}
 

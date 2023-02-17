@@ -1,21 +1,4 @@
-import { GiftIdea, GiftIdeaWithId } from "../sharedTypesAndConstants";
-
-export function addIds(gifts: readonly GiftIdea[]): readonly GiftIdeaWithId[] {
-  const prevIds = new Set<string>();
-  const withIds: GiftIdeaWithId[] = [];
-
-  for (const gift of gifts) {
-    let randomId = String(Math.random());
-    while (prevIds.has(randomId)) {
-      randomId = String(Math.random());
-    }
-
-    prevIds.add(randomId);
-    withIds.push({ ...gift, id: randomId });
-  }
-
-  return withIds;
-}
+import { GiftIdea } from "../sharedTypesAndConstants";
 
 export function isGiftIdea(value: unknown): value is GiftIdea {
   if (!value || typeof value !== "object") {
@@ -31,6 +14,8 @@ export function isGiftIdea(value: unknown): value is GiftIdea {
   const recast = value as Record<string, unknown>;
 
   return (
+    "id" in recast &&
+    typeof recast.id === "string" &&
     "description" in recast &&
     typeof recast.description === "string" &&
     "for" in recast &&

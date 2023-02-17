@@ -1,44 +1,69 @@
-/**
- * Take a look at GiftContainer.tsx - I wasn't sure what you were going for, but
- * it might make sense to rip out the <section> element there and paste it in
- * your output here
- */
-
-import { useState } from "react";
-import debounce from "lodash.debounce";
-import { useGifts } from "../GiftsContext";
+import { useId, useState } from "react";
+import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import GiftItem from "../GiftItem";
+import { GiftIdea } from "../../sharedTypesAndConstants";
+import styles from "./SortBar.module.css";
 
-function SortBar() {
-  const [filterCriteria, setFilterCriteria] = useState("");
-  const currentGifts = useGifts();
-  const filteredGifts = currentGifts.filter((gift) => {
+function filterGifts<G extends GiftIdea>(
+  gifts: readonly G[],
+  criteria: string
+): readonly G[] {
+  if (criteria === "") {
+    return gifts;
+  }
+
+  const normalized = criteria.toUpperCase();
+
+  return gifts.filter((gift) => {
     return Object.values(gift).some((giftValue) => {
       if (typeof giftValue === "number") {
-        return String(giftValue).includes(filterCriteria);
+        return String(giftValue).includes(normalized);
       }
 
+      // For some reason, TypeScript is glitching out with the types here
       if (Array.isArray(giftValue)) {
-        return giftValue.some((v) => v.includes(filterCriteria));
+        return giftValue.some((v: string) =>
+          v.toUpperCase().includes(normalized)
+        );
       }
 
-      return giftValue.includes(filterCriteria);
+      return (giftValue as string).toUpperCase().includes(normalized);
     });
   });
+}
+
+export default function SortBar() {
+  const hookId = useId();
+  const [filterCriteria, setFilterCriteria] = useState("");
+  const currentGifts = useGifts();
+  const { removeGift } = useGiftUpdaters();
+
+  const filtered = filterGifts(currentGifts, filterCriteria);
+  const sortBarId = `${hookId}-sortBar`;
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search"
-        value={filterCriteria}
-        onChange={(e) => setFilterCriteria(e.target.value)}
-      />
-      {filteredGifts.map((gift, index) => (
-        <GiftItem key={index} gift={gift} />
-      ))}
+      <label htmlFor={sortBarId}>
+        Filter Results
+        <input
+          id={sortBarId}
+          className={styles.sortBar}
+          type="text"
+          placeholder="Search"
+          value={filterCriteria}
+          onChange={(e) => setFilterCriteria(e.target.value)}
+        />
+      </label>
+
+      <section className={styles.giftList}>
+        {filtered.map((gift) => (
+          <GiftItem
+            key={gift.id}
+            gift={gift}
+            onDelete={() => removeGift(gift.id)}
+          />
+        ))}
+      </section>
     </div>
   );
 }
-
-export default SortBar;
