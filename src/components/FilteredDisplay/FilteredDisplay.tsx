@@ -1,8 +1,10 @@
 import { useId, useState } from "react";
-import { useGifts, useGiftUpdaters } from "../GiftsContext";
-import GiftItem from "../GiftItem";
-import { GiftIdea } from "../../sharedTypesAndConstants";
 import styles from "./FilteredDisplay.module.css";
+
+import { useGifts, useGiftUpdaters } from "@/components/GiftsContext";
+import GiftItem from "@/components/GiftItem";
+import { GiftIdea } from "@/constants";
+import { isReadOnlyArray } from "@/helpers/typePredicates";
 
 function filterGifts<G extends GiftIdea>(
   gifts: readonly G[],
@@ -24,12 +26,11 @@ function filterGifts<G extends GiftIdea>(
         return String(value).includes(normalized);
       }
 
-      // For some reason, TypeScript is glitching out with the types here
-      if (Array.isArray(value)) {
-        return value.some((v: string) => v.toUpperCase().includes(normalized));
+      if (isReadOnlyArray(value)) {
+        return value.some((v) => v.toUpperCase().includes(normalized));
       }
 
-      return (value as string).toUpperCase().includes(normalized);
+      return value.toUpperCase().includes(normalized);
     });
   });
 }

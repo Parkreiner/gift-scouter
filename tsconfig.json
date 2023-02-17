@@ -16,7 +16,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+
+    "paths": {
+      "@/constants": ["./src/sharedTypesAndConstants.ts"],
+      "@/components/*": ["./src/components/*"],
+      "@/helpers/*": ["./src/helpers/*"],
+      "@/hooks/*": ["./src/hooks/*"]
+    }
   },
   "include": ["src"]
 }

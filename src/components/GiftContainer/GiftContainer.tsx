@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { useGifts } from "../GiftsContext";
-import GiftForm from "../GiftForm";
 import styles from "./GiftContainer.module.css";
-import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
-import FilteredDisplay from "../FilteredDisplay";
+
+import { useGifts } from "@/components/GiftsContext";
+import GiftForm from "@/components/GiftForm";
+import { writeGiftsToLocalStorage } from "@/helpers/localStorage";
+import FilteredDisplay from "@/components/FilteredDisplay";
 
 export default function GiftContainer() {
   const currentGifts = useGifts();

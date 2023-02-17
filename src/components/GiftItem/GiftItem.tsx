@@ -1,6 +1,6 @@
-import { GiftIdea } from "../../sharedTypesAndConstants";
 import { X as Close, ArrowRight } from "react-feather";
 import styles from "./GiftItem.module.css";
+import { GiftIdea } from "@/constants";
 
 type Props = {
   gift: GiftIdea;

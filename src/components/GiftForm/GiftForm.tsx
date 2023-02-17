@@ -1,9 +1,11 @@
 import { useId } from "react";
-import { GiftIdea } from "../../sharedTypesAndConstants";
-import { useGiftUpdaters } from "../GiftsContext";
+import { Heart } from "react-feather";
+
 import useDraftReducer from "./useDraftReducer";
 import styles from "./GiftForm.module.css";
-import { Heart } from "react-feather";
+
+import { GiftIdea } from "@/constants";
+import { useGiftUpdaters } from "@/components/GiftsContext";
 
 type FieldInfo = {
   name: Exclude<keyof GiftIdea, "id" | "tags">;

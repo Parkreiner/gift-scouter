@@ -6,8 +6,8 @@ import {
   useMemo,
   useState,
 } from "react";
-import { getGiftsFromLocalStorage } from "../../helpers/localStorage";
-import { GiftIdea } from "../../sharedTypesAndConstants";
+import { getGiftsFromLocalStorage } from "@/helpers/localStorage";
+import { GiftIdea } from "@/constants";
 
 function useGiftSetup() {
   const [gifts, setGifts] = useState<readonly GiftIdea[]>(() => {

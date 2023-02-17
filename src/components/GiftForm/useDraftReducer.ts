@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { GiftIdea } from "../../sharedTypesAndConstants";
+import { GiftIdea } from "@/constants";
 
 type DraftGift = Omit<GiftIdea, "id">;
 type DraftField = Exclude<keyof DraftGift, "tags">;
