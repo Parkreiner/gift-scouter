@@ -52,8 +52,8 @@ export default function GiftForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newGift = {
-      id: String(Math.random()).slice(2),
       ...draftState,
+      id: String(Math.random()).slice(2),
     };
 
     addGift(newGift);
