@@ -1,2 +1,2 @@
-export * from "./SortBar";
-export { default } from "./SortBar";
+export * from "./FilteredDisplay";
+export { default } from "./FilteredDisplay";
