@@ -2,7 +2,7 @@ import { useId, useState } from "react";
 import { useGifts, useGiftUpdaters } from "../GiftsContext";
 import GiftItem from "../GiftItem";
 import { GiftIdea } from "../../sharedTypesAndConstants";
-import styles from "./SortBar.module.css";
+import styles from "./FilteredDisplay.module.css";
 
 function filterGifts<G extends GiftIdea>(
   gifts: readonly G[],
