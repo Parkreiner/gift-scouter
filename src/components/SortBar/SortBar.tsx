@@ -15,19 +15,21 @@ function filterGifts<G extends GiftIdea>(
   const normalized = criteria.toUpperCase();
 
   return gifts.filter((gift) => {
-    return Object.values(gift).some((giftValue) => {
-      if (typeof giftValue === "number") {
-        return String(giftValue).includes(normalized);
+    return Object.entries(gift).some(([key, value]) => {
+      if (key === "id") {
+        return false;
+      }
+
+      if (typeof value === "number") {
+        return String(value).includes(normalized);
       }
 
       // For some reason, TypeScript is glitching out with the types here
-      if (Array.isArray(giftValue)) {
-        return giftValue.some((v: string) =>
-          v.toUpperCase().includes(normalized)
-        );
+      if (Array.isArray(value)) {
+        return value.some((v: string) => v.toUpperCase().includes(normalized));
       }
 
-      return (giftValue as string).toUpperCase().includes(normalized);
+      return (value as string).toUpperCase().includes(normalized);
     });
   });
 }

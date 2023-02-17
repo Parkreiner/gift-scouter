@@ -1,7 +1,6 @@
 import { useId } from "react";
-import { GiftIdea, GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
-import { useGifts, useGiftUpdaters } from "../GiftsContext";
-import { writeGiftsToLocalStorage } from "../../helpers/localStorage";
+import { GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
+import { useGiftUpdaters } from "../GiftsContext";
 import useDraftReducer from "./useDraftReducer";
 import styles from "./GiftForm.module.css";
 import { Heart } from "react-feather";
