@@ -1,26 +1,26 @@
 import { useReducer } from "react";
-import { GiftIdea, GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
+import { GiftIdea } from "../../sharedTypesAndConstants";
+
+type DraftGift = Omit<GiftIdea, "id">;
+type DraftField = Exclude<keyof DraftGift, "tags">;
 
 type DraftAction =
   | {
       type: "fieldChanged";
-      payload: { field: Exclude<keyof GiftIdea, "tags">; value: string };
+      payload: { field: DraftField; value: string };
     }
   | { type: "tagAdded"; payload: { value: string } }
   | { type: "submitted" };
 
-const initialDraftState = {
+const emptyDraft = {
   description: "",
   for: "",
   link: "",
   price: 0,
   tags: [],
-} as const satisfies GiftIdeaWithoutId;
+} as const satisfies DraftGift;
 
-function reduceDraft(
-  draft: GiftIdeaWithoutId,
-  action: DraftAction
-): GiftIdeaWithoutId {
+function reduceDraft(draft: DraftGift, action: DraftAction): DraftGift {
   switch (action.type) {
     case "fieldChanged": {
       const { field, value } = action.payload;
@@ -34,7 +34,7 @@ function reduceDraft(
     }
 
     case "submitted": {
-      return initialDraftState;
+      return emptyDraft;
     }
 
     default: {
@@ -44,5 +44,5 @@ function reduceDraft(
 }
 
 export default function useDraftReducer() {
-  return useReducer(reduceDraft, initialDraftState);
+  return useReducer(reduceDraft, emptyDraft);
 }

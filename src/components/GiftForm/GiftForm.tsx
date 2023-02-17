@@ -1,14 +1,14 @@
 import { useId } from "react";
-import { GiftIdeaWithoutId } from "../../sharedTypesAndConstants";
+import { GiftIdea } from "../../sharedTypesAndConstants";
 import { useGiftUpdaters } from "../GiftsContext";
 import useDraftReducer from "./useDraftReducer";
 import styles from "./GiftForm.module.css";
 import { Heart } from "react-feather";
 
 type FieldInfo = {
-  name: Exclude<keyof GiftIdeaWithoutId, "tags">;
+  name: Exclude<keyof GiftIdea, "id" | "tags">;
   displayName?: string;
-  optional: boolean;
+  required: boolean;
   type: "text" | "number";
 };
 
@@ -16,22 +16,22 @@ const formFieldInfo: readonly FieldInfo[] = [
   {
     name: "description",
     displayName: "Gift idea",
-    optional: false,
+    required: true,
     type: "text",
   },
   {
     name: "for",
-    optional: true,
+    required: false,
     type: "text",
   },
   {
     name: "link",
-    optional: true,
+    required: false,
     type: "text",
   },
   {
     name: "price",
-    optional: true,
+    required: false,
     type: "number",
   },
 ];
@@ -52,7 +52,7 @@ export default function GiftForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const newGift = {
-      id: String(Math.random()),
+      id: String(Math.random()).slice(2),
       ...draftState,
     };
 
@@ -62,10 +62,10 @@ export default function GiftForm() {
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
-      {formFieldInfo.map(({ name, displayName, optional, type }) => {
+      {formFieldInfo.map(({ name, displayName, required, type }) => {
         const id = `${hookId}-${name}`;
         const availableName = displayName ?? toTitleCase(name);
-        const optionalTag = optional ? " (optional)" : "";
+        const optionalTag = required ? "" : " (optional)";
 
         return (
           <label key={id} htmlFor={id} className={styles.label}>
@@ -78,7 +78,7 @@ export default function GiftForm() {
               id={id}
               type={type}
               name={name}
-              required={!optional}
+              required={required}
               autoComplete="off"
               value={draftState[name]}
               onChange={(e) => {

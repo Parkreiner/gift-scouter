@@ -6,5 +6,3 @@ export type GiftIdea = Readonly<{
   price: number;
   tags: readonly string[];
 }>;
-
-export type GiftIdeaWithoutId = Omit<GiftIdea, "id">;
